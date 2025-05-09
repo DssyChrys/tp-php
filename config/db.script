@@ -1,0 +1,50 @@
+-- Création de la base
+CREATE DATABASE IF NOT EXISTS tp_php CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE tp_php;
+
+-- Table enseignants
+CREATE TABLE `enseignants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL,
+  `domaines` varchar(100) NOT NULL,
+  `role` varchar(255) NOT NULL DEFAULT 'user',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Table etudiants
+CREATE TABLE `etudiants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `binome_id` int(11) DEFAULT NULL,
+  `role` varchar(255) NOT NULL DEFAULT 'user',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Table projets avec contraintes intégrées
+CREATE TABLE `projets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `theme` varchar(255) NOT NULL,
+  `etudiant_id` int(11) NOT NULL,
+  `binome_id` int(11) NOT NULL,
+  `filiere` varchar(255) NOT NULL,
+  `enseignant_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `etudiant_id` (`etudiant_id`),
+  KEY `binome_id` (`binome_id`),
+  KEY `fk_encadreur` (`enseignant_id`),
+  CONSTRAINT `fk_encadreur` FOREIGN KEY (`enseignant_id`) REFERENCES `enseignants` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `projets_ibfk_1` FOREIGN KEY (`etudiant_id`) REFERENCES `etudiants` (`id`),
+  CONSTRAINT `projets_ibfk_2` FOREIGN KEY (`binome_id`) REFERENCES `etudiants` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO etudiants (nom, email, password, role) VALUES (
+  'admin',
+  'admin@mail.test',
+  '$2y$10$exempleDeHashDeMotDePasse',
+  'admin'
+);
+
+COMMIT;
