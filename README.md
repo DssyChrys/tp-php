@@ -31,7 +31,7 @@ Pour vous connecter en tant qu’administrateur, utilisez les identifiants suiva
 
 ## Informations complémentaires
 
-- Assurez-vous que votre serveur MySQL est également démarré si la base de données est utilisée.
+- Assurez-vous que votre serveur MySQL est également démarré.
 - Vérifiez que les extensions PHP nécessaires sont activées (PDO, MySQLi, etc.).
 - Le script de la base de donnée est dans le fichier db.script se trouvant dans le dossier config .
 
