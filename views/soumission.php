@@ -17,23 +17,41 @@
 
 </head>
 <body>
-    <div class="auth-container">
-        <h2>Soumission du Cahier de Charge</h2>
-        <form action="/tp_php/public/submit" method="post">
-            <input type="text" name="theme" placeholder="Intitulé du thème" required>
+<div class="auth-container">
+    <h2>Soumission du Cahier de Charge</h2>
+    <form action="/tp_php/public/submit" method="post">
+        <input type="text" name="theme" placeholder="Intitulé du thème" required>
 
-            <!-- Champ binôme avec id pour le JS -->
-            <input type="text" id="binome" name="binome" placeholder="Nom du binôme" required>
+        <!-- Champ binôme avec id pour le JS -->
+        <input type="text" id="binome" name="binome" placeholder="Nom du binôme" required>
 
-            <select id="filiere" name="filiere" placeholder="Filiere" required>
-                <option value="al">AL</option>
-                <option value="si">SI</option>
-                <option value="src">SRC</option>
-            </select>
-            <button type="submit">Soumettre</button>
-        </form>
-        <p>Connecté en tant qu’étudiant</p>
-    </div>
+        <select id="filiere" name="filiere" required>
+            <option value="al">AL</option>
+            <option value="si">SI</option>
+            <option value="src">SRC</option>
+        </select>
+        <button type="submit">Soumettre</button>
+    </form>
+    <p>Connecté en tant qu’étudiant</p>
+
+    <?php
+    session_start();
+    $etudiantId = $_SESSION['etudiant_id'] ?? null;
+
+    if ($etudiantId === null) {
+        echo "Utilisateur non connecté.";
+    } else {
+        $info = Projet::getBinomeAndEncadreur($etudiantId);
+
+        if ($info) {
+            echo "Vous êtes le binôme <strong>" . htmlspecialchars($info['nom1']) . "</strong> et <strong>" . htmlspecialchars($info['nom2']) . "</strong> et votre encadreur est Mr/Mme <strong>" . htmlspecialchars($info['encadreur_nom'] ?? 'Non attribué') . "</strong>.";
+        } else {
+            echo "Aucun projet ou binôme trouvé pour vous.";
+        }
+    }
+    ?>
+</div>
+
 
     <script>
     $(function() {

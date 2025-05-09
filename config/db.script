@@ -1,8 +1,8 @@
--- Création de la base
+
 CREATE DATABASE IF NOT EXISTS tp_php CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE tp_php;
 
--- Table enseignants
+-- Structure de la table 'enseignants'
 CREATE TABLE `enseignants` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE `enseignants` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Table etudiants
+-- Structure de la table 'etudiants'
 CREATE TABLE `etudiants` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE `etudiants` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Table projets avec contraintes intégrées
+-- Structure de la table 'projets'
 CREATE TABLE `projets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `theme` varchar(255) NOT NULL,
@@ -40,10 +40,11 @@ CREATE TABLE `projets` (
   CONSTRAINT `projets_ibfk_2` FOREIGN KEY (`binome_id`) REFERENCES `etudiants` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Déchargement des données de la table 'etudiants'
 INSERT INTO etudiants (nom, email, password, role) VALUES (
   'admin',
   'admin@mail.test',
-  '$2y$10$exempleDeHashDeMotDePasse',
+  '$2y$10$PHE1MhQBJ2Ho8K9mI.cz6O3DMqkpK5gRXEiQT0t4vSLXCMRVXKmJi',
   'admin'
 );
 

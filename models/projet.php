@@ -45,5 +45,27 @@ class Projet {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
+    public static function getBinomeAndEncadreur(int $etudiantId): ?array {
+        $db = Database::getConnection();
+    
+        $sql = "
+            SELECT 
+                e1.nom AS nom1,
+                e2.nom AS nom2,
+                en.nom AS encadreur_nom
+            FROM projets p
+            INNER JOIN etudiants e1 ON p.etudiant_id = e1.id
+            INNER JOIN etudiants e2 ON p.binome_id = e2.id
+            LEFT JOIN enseignants en ON p.enseignant_id = en.id
+            WHERE e1.id = :etudiant_id OR e2.id = :etudiant_id
+            LIMIT 1
+        ";
+    
+        $stmt = $db->prepare($sql);
+        $stmt->execute([':etudiant_id' => $etudiantId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        return $result ?: null;
+    }
     
 }
